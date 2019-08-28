@@ -48,8 +48,8 @@ JNIEXPORT void JNICALL Java_com_zhang_1ray_easyvoicecall_Worker_reInitDecoder(JN
 
 
 JNIEXPORT jbyteArray JNICALL Java_com_zhang_1ray_easyvoicecall_Worker_encode (JNIEnv *env, jobject obj, jbyteArray pcm ) {
-    auto bytedata = (*env)->GetByteArrayElements(env, pcm, 0);
-    auto nbPcmBytes = (*env)->GetArrayLength(env, pcm);
+    jbyte* bytedata = (*env)->GetByteArrayElements(env, pcm, 0);
+    jsize nbPcmBytes = (*env)->GetArrayLength(env, pcm);
     // LOGV("nbPcmBytes=%d", nbPcmBytes);
     // LOGV("encoder_=%x", encoder_);
     // LOGV("bytedata=%x", bytedata);
@@ -71,8 +71,8 @@ JNIEXPORT jbyteArray JNICALL Java_com_zhang_1ray_easyvoicecall_Worker_encode (JN
 
 
 JNIEXPORT jbyteArray JNICALL Java_com_zhang_1ray_easyvoicecall_Worker_decode(JNIEnv *env, jobject obj, jbyteArray encodedData) {
-    auto bytedata = (*env)->GetByteArrayElements(env, encodedData, 0);
-    auto nbBytes = (*env)->GetArrayLength(env, encodedData);
+    jbyte* bytedata = (*env)->GetByteArrayElements(env, encodedData, 0);
+    jsize nbBytes = (*env)->GetArrayLength(env, encodedData);
 
     auto frame_size = opus_decode(decoder_, bytedata, nbBytes, out, MAX_FRAME_SIZE, 0);
     if (frame_size<0) {
