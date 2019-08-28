@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+
+build
+opus-1.1.*
+.vscode
+android-ndk-r*
