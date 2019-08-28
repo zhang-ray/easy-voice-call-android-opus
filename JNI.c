@@ -9,6 +9,7 @@
 OpusDecoder *decoder_ = NULL;
 OpusEncoder *encoder_ = NULL;
 
+unsigned char cbits[MAX_PACKET_SIZE];
 short out[MAX_FRAME_SIZE];
 
 // JNIEXPORT jstring JNICALL Java_com_zhang_1ray_easyvoicecall_Worker_getVersion
@@ -36,6 +37,21 @@ JNIEXPORT void JNICALL Java_com_zhang_1ray_easyvoicecall_Worker_reInitDecoder
 }
 
 
+
+JNIEXPORT jbyteArray JNICALL Java_com_zhang_1ray_easyvoicecall_Worker_encode (JNIEnv *env, jobject obj, jbyteArray pcm) {
+    jbyte* bytedata = (*env)->GetByteArrayElements(env, pcm, 0);
+    jsize nbPcmBytes = (*env)->GetArrayLength(env, pcm);
+    int nbBytes = opus_encode(encoder_, (const short*)bytedata, nbPcmBytes/2, cbits, MAX_PACKET_SIZE);
+    if (nbBytes<0) {
+        exit(-1);
+    }
+    jbyteArray jarrRV = (*env)->NewByteArray(env,cbits);
+
+        
+    (*env)->SetByteArrayRegion(env,jarrRV, 0,nbBytes,cbits);
+
+    return jarrRV;
+}
 
 
 
