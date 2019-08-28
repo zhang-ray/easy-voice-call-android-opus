@@ -1,0 +1,3 @@
+dist: bionic
+
+before_script: ./build.sh
